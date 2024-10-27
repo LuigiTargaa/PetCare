@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procurar Prontuário</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #a8e0f6 0%, #f0f0f5 100%);
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            border: none;
+            padding: 15px;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .buscar {
+            background-color: #28a745;
+        }
+        .buscar:hover {
+            background-color: #218838;
+        }
+        .voltar {
+            background-color: #007bff;
+            margin-top: 10px;
+        }
+        .voltar:hover {
+            background-color: #0056b3;
+        }
+        .deletar {
+            background-color: #dc3545; /* Vermelho */
+            margin-top: 20px; /* Espaço entre os botões */
+        }
+        .deletar:hover {
+            background-color: #c82333; /* Vermelho escuro */
+        }
+        .mensagem {
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Procurar Prontuário</h1>
+
+    {% if mensagem %}
+        <div class="mensagem">{{ mensagem }}</div>
+    {% endif %}
+
+    {% if prontuario %}
+        <h2>Prontuário Encontrado</h2>
+        <p><strong>Nome do Cliente:</strong> {{ prontuario.nome_cliente }}</p>
+        <p><strong>Nome do Pet:</strong> {{ prontuario.nome_pet }}</p>
+        <p><strong>Alergias:</strong> {{ prontuario.alergias }}</p>
+        <p><strong>Medicamentos:</strong> {{ prontuario.medicamentos }}</p>
+        <p><strong>Condições:</strong> {{ prontuario.condicoes }}</p>
+        <p><strong>Veterinário:</strong> {{ prontuario.veterinario }}</p>
+        <p><strong>Data do Atendimento:</strong> {{ prontuario.data }}</p>
+
+        <form action="{{ url_for('deletar_prontuario', prontuario_id=prontuario._id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este prontuário?');">
+            <button type="submit" class="deletar" style="background-color: #dc3545; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Deletar Prontuário</button>
+        </form>
+    {% endif %}
+
+
+    <form action="{{ url_for('procurar_prontuario') }}" method="POST">
+        <label for="nome_cliente">Nome do Cliente:</label>
+        <input type="text" name="nome_cliente" placeholder="Digite o nome do cliente" required>
+
+        <label for="nome_pet">Nome do Pet:</label>
+        <input type="text" name="nome_pet" placeholder="Digite o nome do pet" required>
+
+        <button type="submit" class="buscar"><strong>Buscar Prontuário</strong></button>
+    </form>
+
+    <button class="voltar" onclick="window.location.href='/'"><strong>Voltar para a Tela Principal</strong></button>
+</div>
+
+</body>
+</html>
